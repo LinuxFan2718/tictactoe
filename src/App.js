@@ -4,9 +4,11 @@ import Board from './Board';
 function App() {
   return (
     <div className="App">
-      <h1>Tic Tac Toe</h1>
+      <div className='Title'>Tic Tac Toe</div>
       <Board />
-      <a href="https://cahillanelabs.com/">cahillanelabs project</a>
+      <div className='Footer'>
+        <a href="https://cahillanelabs.com/">cahillanelabs project</a>
+      </div>
     </div>
   );
 }

@@ -21,15 +21,17 @@ function Board() {
   }
 
   return (
-    <div>
+    <div className="Board">
       {board.map((row, rowIndex) => (
-        <div key={rowIndex}>
+        <div className='Row' key={rowIndex}>
           {row.map((cell, colIndex) => (
             <button 
               key={colIndex}
               onClick={() => handleCellClick(rowIndex, colIndex)}
             >
-              {cell || ' '}
+              <div className='Cell'>
+                {cell || ' '}
+              </div>
             </button>
           ))}
         </div>

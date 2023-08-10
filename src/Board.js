@@ -24,13 +24,12 @@ function Board() {
     <div>
       {board.map((row, rowIndex) => (
         <div key={rowIndex}>
-          -----------------
           {row.map((cell, colIndex) => (
             <button 
               key={colIndex}
               onClick={() => handleCellClick(rowIndex, colIndex)}
             >
-              |{cell || 'null'}|
+              {cell || ' '}
             </button>
           ))}
         </div>

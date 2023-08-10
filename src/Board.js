@@ -2,9 +2,9 @@ import { useState } from "react";
 
 function Board() {
   const [board, setBoard] = useState(
+    [[null, null, null],
     [null, null, null],
-    [null, null, null],
-    [null, null, null]
+    [null, null, null]]
   );
   const [isXNext, setIsXNext] = useState(true);
   const handleCellClick = (row, col) => {

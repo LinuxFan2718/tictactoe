@@ -13,6 +13,14 @@ function Board({gameState, setGameState}) {
     
     return null;
   }
+  function checkDraw() {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j< 3; j++) {
+        if (board[i][j] === null) return false;
+      }
+    }
+    return true;
+  }
 
   const [board, setBoard] = useState(
     [[null, null, null],
@@ -37,6 +45,10 @@ function Board({gameState, setGameState}) {
     let winner = checkWinner();
     if (winner) {
       setGameState(`winner is ${winner}`);
+    };
+    let draw = checkDraw();
+    if (draw) {
+      setGameState("draw");
     };
   }, [board]);
 

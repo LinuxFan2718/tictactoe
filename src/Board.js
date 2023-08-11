@@ -45,11 +45,10 @@ function Board({gameState, setGameState}) {
     let winner = checkWinner();
     if (winner) {
       setGameState(`winner is ${winner}`);
+    } else if (checkDraw()) {
+      setGameState('draw');
     };
-    let draw = checkDraw();
-    if (draw) {
-      setGameState("draw");
-    };
+    
   }, [board, gameState, setGameState]);
 
   return (

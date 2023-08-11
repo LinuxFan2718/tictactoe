@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 function App() {
 
-  const [gameState, setGameState] = useState('playing'); // ['playing', 'X', 'O', 'draw'
+  const [gameState, setGameState] = useState('playing'); // 'playing', 'X', 'O', 'draw'
   return (
     <div className="App">
       <div className='Title'>Tic Tac Toe</div>

@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import random_bot from './bots/random_bot';
 
-function Board({gameState, setGameState}) {
-  const [board, setBoard] = useState(
-    [[null, null, null],
-    [null, null, null],
-    [null, null, null]]
-  );
-  const [isXNext, setIsXNext] = useState(true);
+function Board({gameState, setGameState, gameMode, board, setBoard}) {
+  const [isXNext, setIsXNext] = useState(true); // Player 1 = X
   const handleCellClick = (row, col) => {
-    if (gameState !== 'playing' || board[row][col] !== null) return; // cell already filled
+    if (gameState !== 'humanplaying' || board[row][col] !== null) return; // cell already filled
     
     const newBoard = board.map((r, rowIndex) => 
       r.map((c, colIndex) => 
@@ -18,7 +14,17 @@ function Board({gameState, setGameState}) {
 
     setBoard(newBoard);
     setIsXNext(!isXNext); // Toggle the turn
+    
   }
+  const togglePlayer = useCallback(() => {
+    if(gameMode === 'player1human' || gameMode === 'player2human') {
+        if (gameState === 'humanplaying') {
+          setGameState('botplaying');
+        } else {
+          setGameState('humanplaying');
+        }
+    }
+  }, [gameMode, gameState, setGameState]);
 
   useEffect(() => {
     function checkWinner() {
@@ -41,7 +47,21 @@ function Board({gameState, setGameState}) {
       }
       return true;
     }
-  
+
+    if (gameState === 'botplaying') {
+      // Bot's turn
+      let botMove = random_bot(board);
+      console.log(botMove);
+      let newBoard = board.map((r, rowIndex) => 
+        r.map((c, colIndex) => 
+          rowIndex === botMove[0] && colIndex === botMove[1] ? (isXNext ? 'X' : 'O') : c
+        )
+      );
+      setBoard(newBoard);
+      setIsXNext(!isXNext);
+      togglePlayer();
+    }
+
     let winner = checkWinner();
     if (winner) {
       setGameState(`winner is ${winner}`);
@@ -49,7 +69,8 @@ function Board({gameState, setGameState}) {
       setGameState('draw');
     };
     
-  }, [board, gameState, setGameState]);
+    
+  }, [board, gameState, setGameState, togglePlayer, isXNext, setBoard]);
 
   return (
     <div className="Board">

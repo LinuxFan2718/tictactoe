@@ -1,30 +1,49 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import random_bot from './bots/random_bot';
 
 function Board({gameState, setGameState, gameMode, board, setBoard}) {
-  const [isXNext, setIsXNext] = useState(true); // Player 1 = X
-  const handleCellClick = (row, col) => {
-    if (gameState !== 'humanplaying' || board[row][col] !== null) return; // cell already filled
-    
-    const newBoard = board.map((r, rowIndex) => 
-      r.map((c, colIndex) => 
-        rowIndex === row && colIndex === col ? (isXNext ? 'X' : 'O') : c
-      )
-    );
-
-    setBoard(newBoard);
-    setIsXNext(!isXNext); // Toggle the turn
-    
-  }
-  const togglePlayer = useCallback(() => {
-    if(gameMode === 'player1human' || gameMode === 'player2human') {
-        if (gameState === 'humanplaying') {
-          setGameState('botplaying');
-        } else {
-          setGameState('humanplaying');
-        }
+  const [currentPlayer, setCurrentPlayer] = useState(0); // 0 or 1
+  const setPlayers = (gameMode) => {
+    if (gameMode === 'player1human') {
+      return ['human', 'bot'];
+    } else if (gameMode === 'player2human') {
+      return ['bot', 'human'];
+    } else if (gameMode === '2bots') {
+      return ['bot', 'bot'];
+    } else if (gameMode === '2humans') {
+      return ['human', 'human'];
     }
-  }, [gameMode, gameState, setGameState]);
+  }
+  const playersRef = useRef(setPlayers(gameMode));
+  const letter = useMemo(() => ['X','O'], []);
+
+  const handleCellClick = (row, col) => {
+    console.log('playersRef', playersRef);
+    console.log('currentPlayer', currentPlayer);
+    console.log('board', board)
+    if(playersRef.current[currentPlayer] === 'human') {
+      if (board[row][col] === null) {
+        let newBoard = [...board];
+        newBoard[row][col] = letter[currentPlayer];
+        console.log('letter', letter);
+        console.log('board', board);
+        setBoard(newBoard);
+        setCurrentPlayer((currentPlayer + 1) % 2);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (playersRef.current[currentPlayer] === 'bot') {
+      let [row, col] = random_bot(board);
+      let newBoard = [...board];
+      newBoard[row][col] = letter[currentPlayer];
+
+      setBoard(newBoard);
+      setCurrentPlayer((currentPlayer + 1) % 2);
+    }
+  }, [board, setBoard, currentPlayer, playersRef, letter])
+
 
   useEffect(() => {
     function checkWinner() {
@@ -48,29 +67,13 @@ function Board({gameState, setGameState, gameMode, board, setBoard}) {
       return true;
     }
 
-    if (gameState === 'botplaying') {
-      // Bot's turn
-      let botMove = random_bot(board);
-      console.log(botMove);
-      let newBoard = board.map((r, rowIndex) => 
-        r.map((c, colIndex) => 
-          rowIndex === botMove[0] && colIndex === botMove[1] ? (isXNext ? 'X' : 'O') : c
-        )
-      );
-      setBoard(newBoard);
-      setIsXNext(!isXNext);
-      togglePlayer();
-    }
-
     let winner = checkWinner();
     if (winner) {
       setGameState(`winner is ${winner}`);
     } else if (checkDraw()) {
       setGameState('draw');
     };
-    
-    
-  }, [board, gameState, setGameState, togglePlayer, isXNext, setBoard]);
+  }, [board, gameState, setGameState, setBoard]);
 
   return (
     <div className="Board">

@@ -25,6 +25,10 @@
   justify-content: center;
 }
 
+.GameMode {
+  text-align: center;
+  padding-bottom: 1em;
+}
 button {
   background-color: orange;
   min-height: 9em;
@@ -32,6 +36,20 @@ button {
   max-height: 9em;
   max-width: 9em;
 }
+
+.StartScreen li {
+  text-align: center;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+.StartScreen ul {
+  background-color: azure;
+  font-family: 'Courier New', Courier, monospace;
+  font-style: bold;
+  font-size: 1.5em;
+  border: 1px solid black;
+}
+
 
 .Cell {
   font-size: 7em; 

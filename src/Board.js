@@ -21,7 +21,7 @@ function Board({gameState, setGameState, gameMode, board, setBoard}) {
     console.log('playersRef', playersRef);
     console.log('currentPlayer', currentPlayer);
     console.log('board', board)
-    if(playersRef.current[currentPlayer] === 'human') {
+    if(gameState === 'playing' && playersRef.current[currentPlayer] === 'human') {
       if (board[row][col] === null) {
         let newBoard = [...board];
         newBoard[row][col] = letter[currentPlayer];
@@ -34,7 +34,7 @@ function Board({gameState, setGameState, gameMode, board, setBoard}) {
   }
 
   useEffect(() => {
-    if (playersRef.current[currentPlayer] === 'bot') {
+    if (gameState === 'playing' && playersRef.current[currentPlayer] === 'bot') {
       let [row, col] = random_bot(board);
       let newBoard = [...board];
       newBoard[row][col] = letter[currentPlayer];
@@ -42,7 +42,7 @@ function Board({gameState, setGameState, gameMode, board, setBoard}) {
       setBoard(newBoard);
       setCurrentPlayer((currentPlayer + 1) % 2);
     }
-  }, [board, setBoard, currentPlayer, playersRef, letter])
+  }, [board, setBoard, currentPlayer, playersRef, letter, gameState])
 
 
   useEffect(() => {

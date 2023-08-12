@@ -4,18 +4,9 @@ import { useState, useEffect, useMemo } from 'react';
 
 function TicTacToeGame({ gameMode, setGameMode }) {
   const determineInitialState = () => {
-    switch(gameMode) {
-      case '2humans':
-      case 'player1human':
-        return 'humanplaying';
-      case 'player2human':
-      case '2bots':
-        return 'botplaying';
-      default:
-        return 'humanplaying';
-    }
+    return 'playing'
   }
-  // 'humanplaying', 'botplaying', 'X won', 'O won', 'draw'
+  // 'playing', 'playing', 'X won', 'O won', 'draw'
   const [gameState, setGameState] = useState(determineInitialState());
   const emptyBoard = useMemo(() => [
     [null, null, null],

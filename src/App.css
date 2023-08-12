@@ -29,6 +29,7 @@
   text-align: center;
   padding-bottom: 1em;
 }
+
 button {
   background-color: orange;
   min-height: 9em;
@@ -50,7 +51,6 @@ button {
   border: 1px solid black;
 }
 
-
 .Cell {
   font-size: 7em; 
   font-weight: bold;
@@ -59,4 +59,16 @@ button {
 .GameState {
   padding-top: 1em;
   text-align: center;
+}
+
+.GameModeSelector {
+  margin: 1em;
+  border: 1px solid red;
+  background-color: black;
+  color: white;
+}
+
+.GameModeSelector:hover {
+  background-color: lightcoral;
+  color: black;
 }

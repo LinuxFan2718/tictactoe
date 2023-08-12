@@ -8,13 +8,13 @@ function StartScreen({setGameMode}) {
       <div className="GameModeSelector" onClick={() => handleSelection('2humans')}>
         2 human players.
       </div>
-      <div className="GameModeSelector">
+      <div className="GameModeSelector" onClick={() => handleSelection('player1human')}>
         Player 1 Human. Player 2 Bot.
       </div>
-      <div className="GameModeSelector">
+      <div className="GameModeSelector" onClick={() => handleSelection('player2human')}>
         Player 1 Bot. Player 2 Human.
       </div>
-      <div className="GameModeSelector">
+      <div className="GameModeSelector" onClick={() => handleSelection('2bots')}>
         2 bot players.
       </div>
     </div>

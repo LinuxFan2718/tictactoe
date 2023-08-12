@@ -25,11 +25,6 @@
   justify-content: center;
 }
 
-.GameMode {
-  text-align: center;
-  padding-bottom: 1em;
-}
-
 button {
   background-color: orange;
   min-height: 9em;
@@ -57,7 +52,7 @@ button {
 }
 
 .GameState {
-  padding-top: 1em;
+  padding: 1em;
   text-align: center;
 }
 
@@ -71,4 +66,21 @@ button {
 .GameModeSelector:hover {
   background-color: lightcoral;
   color: black;
+  cursor: pointer;
+}
+
+.reset {
+  text-align: center;
+  margin: 1em;
+  border: 1px solid red;
+  background-color: black;
+  color: white;
+  margin-left: 4em;
+  margin-right: 4em;
+}
+
+.reset:hover {
+  background-color: lightcoral;
+  color: black;
+  cursor: pointer;
 }

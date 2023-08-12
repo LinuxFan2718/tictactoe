@@ -1,7 +1,8 @@
-function GameState({ gameState }) {
+function GameState({ gameState, gameMode }) {
   return (
       <div className='GameState'>
-        {gameState}
+        state = {gameState} <br />
+        mode = {gameMode}
       </div>
     )
 }

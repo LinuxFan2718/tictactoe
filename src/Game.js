@@ -9,7 +9,7 @@ function Game() {
       {
       gameMode === 'startscreen' ? 
         <StartScreen setGameMode={setGameMode} /> : 
-        <TicTacToeGame gameMode={gameMode} />
+        <TicTacToeGame gameMode={gameMode} setGameMode={setGameMode}/>
       }
     </div>
   )

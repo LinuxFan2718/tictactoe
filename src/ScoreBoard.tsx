@@ -10,7 +10,8 @@ interface ScoreBoardProps {
 function ScoreBoard({ gameState, gameMode }: ScoreBoardProps) {
   return (
       <div className='ScoreBoard'>
-        state = {gameState.kind} <br />
+        state = {gameState.kind}.&nbsp;
+        {gameState.kind === 'Finished' ? `winner = ${gameState.winner}.` : null}<br />
         mode = {gameMode}
       </div>
     )

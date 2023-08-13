@@ -1,9 +1,11 @@
+import React from 'react';
 import StartScreen from './StartScreen';
 import TicTacToeGame from './TicTacToeGame';
 import { useState } from 'react';
+import { GameMode } from './types/GameMode';
 
 function Game() {
-  const [gameMode, setGameMode] = useState('startscreen');
+  const [gameMode, setGameMode] = useState<GameMode>('startscreen');
   return (
     <div>
       {

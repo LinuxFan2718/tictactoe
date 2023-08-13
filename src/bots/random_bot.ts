@@ -1,4 +1,6 @@
-function random_bot(board) {
+import { BoardType } from "../BoardType";
+
+function random_bot(board: BoardType): number[] {
   // Logic to let bot make the first move
   let availableCells = [];
   for (let i = 0; i < 3; i++) {

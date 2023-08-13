@@ -1,5 +1,12 @@
-function StartScreen({setGameMode}) {
-  const handleSelection = (mode) => {
+import React from "react";
+import { GameMode } from "./types/GameMode";
+
+interface StartScreenProps {
+  setGameMode: React.Dispatch<React.SetStateAction<GameMode>>;
+}
+
+function StartScreen({setGameMode}: StartScreenProps) {
+  const handleSelection = (mode: GameMode) => {
     setGameMode(mode);
   }
   return (

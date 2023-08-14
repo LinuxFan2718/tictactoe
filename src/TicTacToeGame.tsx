@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Board from './Board';
 import ScoreBoard from './ScoreBoard';
 import { useState, useEffect, useMemo } from 'react';
@@ -22,32 +22,35 @@ function TicTacToeGame({ gameMode, setGameMode }: TicTacToeGameProps) {
             return {'X': 'human', 'O': 'human'};
     }
   }
-  const determineInitialState = (): GameState => {
-    return { kind: 'InProgress', turn: 'X', playertype: setPlayers(gameMode) }
-  }
-  // 'playing', 'playing', 'X won', 'O won', 'draw'
-  const [gameState, setGameState] = useState(determineInitialState());
   const emptyBoard = useMemo<BoardType>(() => [
     [null, null, null],
     [null, null, null],
     [null, null, null]
   ], []);
-  const [board, setBoard] = useState<BoardType>(emptyBoard);
+  const determineInitialState = useCallback((): GameState => {
+    return { 
+      kind: 'InProgress', 
+      turn: 'X', 
+      playertype: setPlayers(gameMode),
+      board: emptyBoard
+    }
+  },[emptyBoard, gameMode]);
+
+  const [gameState, setGameState] = useState(determineInitialState());
+
   const resetGame = () => {
-    setBoard(emptyBoard);
+    setGameState(determineInitialState());
     setGameMode('startscreen');
   }
   useEffect(() => {
-    setBoard(emptyBoard);
-  }, [gameMode, emptyBoard])
+    setGameState(determineInitialState());
+  }, [gameMode, emptyBoard, determineInitialState])
   return (
     <div>
       <ScoreBoard gameState={gameState} gameMode={gameMode} />
       <Board 
         gameState={gameState}
         setGameState={setGameState}
-        board={board}
-        setBoard={setBoard}
       />
       
       <div className='reset' onClick={resetGame}>Reset Game</div>

@@ -29,7 +29,6 @@ function Board({gameState, setGameState, gameMode, board, setBoard}: BoardProps)
     }
 }
   const playersRef = setPlayers(gameMode);
-  const letter = useMemo(() => ['X','O'] as const, []);
 
   const handleCellClick = (row: number, col: number) => {
     if(gameState.kind === 'InProgress' && playersRef[gameState.turn] === 'human') {
@@ -62,7 +61,7 @@ function Board({gameState, setGameState, gameMode, board, setBoard}: BoardProps)
           turn: gameState.turn === 'X' ? 'O' : 'X'
         })
     }
-  }, [board, setBoard, playersRef, letter, gameState, setGameState])
+  }, [board, setBoard, playersRef, gameState, setGameState])
 
 
   useEffect(() => {

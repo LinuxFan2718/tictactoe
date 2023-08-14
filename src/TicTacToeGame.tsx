@@ -3,7 +3,7 @@ import Board from './Board';
 import ScoreBoard from './ScoreBoard';
 import { useState, useEffect, useMemo } from 'react';
 import { GameMode } from './types/GameMode';
-import { GameState } from './types/GameState';
+import { GameState, PlayerType } from './types/GameState';
 import { BoardType } from './BoardType';
 
 interface TicTacToeGameProps {
@@ -11,8 +11,19 @@ interface TicTacToeGameProps {
   setGameMode: React.Dispatch<React.SetStateAction<GameMode>>;
 }
 function TicTacToeGame({ gameMode, setGameMode }: TicTacToeGameProps) {
+  const setPlayers = (gameMode: GameMode): PlayerType => {
+    switch(gameMode) {
+        case 'player1human': return {'X': 'human', 'O': 'bot'};
+        case 'player2human': return {'X': 'bot', 'O': 'human'};
+        case '2bots': return {'X': 'bot', 'O': 'bot'};
+        case '2humans': return {'X': 'human', 'O': 'human'};
+        default:
+            console.warn('Unexpected game mode:', gameMode);
+            return {'X': 'human', 'O': 'human'};
+    }
+  }
   const determineInitialState = (): GameState => {
-    return { kind: 'InProgress', turn: 'X' }
+    return { kind: 'InProgress', turn: 'X', playertype: setPlayers(gameMode) }
   }
   // 'playing', 'playing', 'X won', 'O won', 'draw'
   const [gameState, setGameState] = useState(determineInitialState());
@@ -35,7 +46,6 @@ function TicTacToeGame({ gameMode, setGameMode }: TicTacToeGameProps) {
       <Board 
         gameState={gameState}
         setGameState={setGameState}
-        gameMode={gameMode}
         board={board}
         setBoard={setBoard}
       />

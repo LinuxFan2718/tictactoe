@@ -1,37 +1,20 @@
 import React from "react";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import random_bot from './bots/random_bot';
 import { GameState } from './types/GameState';
-import { GameMode } from './types/GameMode';
 import { BoardType } from './BoardType';
 
 interface BoardProps {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
-  gameMode: GameMode;
   board: BoardType;
   setBoard: React.Dispatch<React.SetStateAction<BoardType>>;
 }
 
-function Board({gameState, setGameState, gameMode, board, setBoard}: BoardProps) {
-  const setPlayers = (gameMode: GameMode):  {
-    'X': 'human' | 'bot',
-    'O': 'human' | 'bot'
-  } => {
-    switch(gameMode) {
-        case 'player1human': return {'X': 'human', 'O': 'bot'};
-        case 'player2human': return {'X': 'bot', 'O': 'human'};
-        case '2bots': return {'X': 'bot', 'O': 'bot'};
-        case '2humans': return {'X': 'human', 'O': 'human'};
-        default:
-            console.warn('Unexpected game mode:', gameMode);
-            return {'X': 'human', 'O': 'human'};
-    }
-}
-  const playersRef = setPlayers(gameMode);
+function Board({gameState, setGameState, board, setBoard}: BoardProps) {
 
   const handleCellClick = (row: number, col: number) => {
-    if(gameState.kind === 'InProgress' && playersRef[gameState.turn] === 'human') {
+    if(gameState.kind === 'InProgress' && gameState.playertype[gameState.turn] === 'human') {
       if (board[row][col] === null) {
 
         let newBoard = structuredClone(board);
@@ -41,14 +24,15 @@ function Board({gameState, setGameState, gameMode, board, setBoard}: BoardProps)
         setGameState(
           {
             kind: "InProgress",
-            turn: gameState.turn === 'X' ? 'O' : 'X'
+            turn: gameState.turn === 'X' ? 'O' : 'X',
+            playertype: gameState.playertype
           })
       }
     }
   }
 
   useEffect(() => {
-    if (gameState.kind === 'InProgress' && playersRef[gameState.turn] === 'bot') {
+    if (gameState.kind === 'InProgress' && gameState.playertype[gameState.turn] === 'bot') {
       let [row, col] = random_bot(board);
 
       let newBoard = structuredClone(board);
@@ -58,10 +42,11 @@ function Board({gameState, setGameState, gameMode, board, setBoard}: BoardProps)
       setGameState(
         {
           kind: "InProgress",
-          turn: gameState.turn === 'X' ? 'O' : 'X'
+          turn: gameState.turn === 'X' ? 'O' : 'X',
+          playertype: gameState.playertype
         })
     }
-  }, [board, setBoard, playersRef, gameState, setGameState])
+  }, [board, setBoard, gameState, setGameState])
 
 
   useEffect(() => {

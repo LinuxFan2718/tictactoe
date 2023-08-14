@@ -12,7 +12,7 @@ interface TicTacToeGameProps {
 }
 function TicTacToeGame({ gameMode, setGameMode }: TicTacToeGameProps) {
   const determineInitialState = (): GameState => {
-    return { kind: 'InProgress', turn: 0 }
+    return { kind: 'InProgress', turn: 'X' }
   }
   // 'playing', 'playing', 'X won', 'O won', 'draw'
   const [gameState, setGameState] = useState(determineInitialState());

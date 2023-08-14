@@ -14,15 +14,18 @@ interface BoardProps {
 }
 
 function Board({gameState, setGameState, gameMode, board, setBoard}: BoardProps) {
-  const setPlayers = (gameMode: GameMode): string[] => {
+  const setPlayers = (gameMode: GameMode):  {
+    'X': 'human' | 'bot',
+    'O': 'human' | 'bot'
+  } => {
     switch(gameMode) {
-        case 'player1human': return ['human', 'bot'];
-        case 'player2human': return ['bot', 'human'];
-        case '2bots': return ['bot', 'bot'];
-        case '2humans': return ['human', 'human'];
+        case 'player1human': return {'X': 'human', 'O': 'bot'};
+        case 'player2human': return {'X': 'bot', 'O': 'human'};
+        case '2bots': return {'X': 'bot', 'O': 'bot'};
+        case '2humans': return {'X': 'human', 'O': 'human'};
         default:
             console.warn('Unexpected game mode:', gameMode);
-            return ['human', 'human'];
+            return {'X': 'human', 'O': 'human'};
     }
 }
   const playersRef = setPlayers(gameMode);
@@ -33,13 +36,13 @@ function Board({gameState, setGameState, gameMode, board, setBoard}: BoardProps)
       if (board[row][col] === null) {
 
         let newBoard = structuredClone(board);
-        newBoard[row][col] = letter[gameState.turn];
+        newBoard[row][col] = gameState.turn;
         setBoard(newBoard);
 
         setGameState(
           {
             kind: "InProgress",
-            turn: gameState.turn === 0 ? 1 : 0
+            turn: gameState.turn === 'X' ? 'O' : 'X'
           })
       }
     }
@@ -50,13 +53,13 @@ function Board({gameState, setGameState, gameMode, board, setBoard}: BoardProps)
       let [row, col] = random_bot(board);
 
       let newBoard = structuredClone(board);
-      newBoard[row][col] = letter[gameState.turn];
+      newBoard[row][col] = gameState.turn;
       setBoard(newBoard);
 
       setGameState(
         {
           kind: "InProgress",
-          turn: gameState.turn === 0 ? 1 : 0
+          turn: gameState.turn === 'X' ? 'O' : 'X'
         })
     }
   }, [board, setBoard, playersRef, letter, gameState, setGameState])

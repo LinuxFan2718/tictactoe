@@ -32,24 +32,6 @@ function Board({gameState, setGameState, board, setBoard}: BoardProps) {
   }
 
   useEffect(() => {
-    if (gameState.kind === 'InProgress' && gameState.playertype[gameState.turn] === 'bot') {
-      let [row, col] = random_bot(board);
-
-      let newBoard = structuredClone(board);
-      newBoard[row][col] = gameState.turn;
-      setBoard(newBoard);
-
-      setGameState(
-        {
-          kind: "InProgress",
-          turn: gameState.turn === 'X' ? 'O' : 'X',
-          playertype: gameState.playertype
-        })
-    }
-  }, [board, setBoard, gameState, setGameState])
-
-
-  useEffect(() => {
     function checkWinner(): 'X' | 'O' | null {
       // Check rows, columns and diagonals
       for (let i = 0; i < 3; i++) {
@@ -69,7 +51,7 @@ function Board({gameState, setGameState, board, setBoard}: BoardProps) {
         }
       }
       return true;
-    }
+    };
 
     let winner = checkWinner();
     if (winner) {
@@ -78,7 +60,22 @@ function Board({gameState, setGameState, board, setBoard}: BoardProps) {
       setGameState({ kind: 'Finished', winner: null });
     };
 
-    
+    if (gameState.kind === 'InProgress' && gameState.playertype[gameState.turn] === 'bot') {
+      let [row, col] = random_bot(board);
+
+      let newBoard = structuredClone(board);
+      newBoard[row][col] = gameState.turn;
+      setBoard(newBoard);
+      setGameState(
+        {
+          kind: "InProgress",
+          turn: gameState.turn === 'X' ? 'O' : 'X',
+          playertype: gameState.playertype
+        }
+      )
+    }
+
+
   }, [board, gameState, setGameState, setBoard]);
 
   return (

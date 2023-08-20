@@ -41,11 +41,11 @@ function Game() {
     setGameState(determineInitialState());
   }, [gameMode, emptyBoard, determineInitialState])
 
-  const [gameState, setGameState] = useState(determineInitialState());
+  const [gameState, setGameState] = useState({ kind: 'StartScreen', board: emptyBoard });
   return (
     <div>
       {
-      gameMode === 'startscreen' ? 
+      gameState['kind'] === 'StartScreen' ? 
         <StartScreen setGameMode={setGameMode} /> : 
         <TicTacToeGame 
           gameMode={gameMode} 
